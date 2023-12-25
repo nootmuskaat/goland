@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"strings"
+	"strconv"
 	"time"
 )
 
@@ -21,17 +23,18 @@ const twoja_stara = ";)"
 const that_number = 69
 
 func main() {
-	defer fmt.Println("This has been: fun with go")
-	defer fmt.Println("The current time is", time.Now())
+	defer fmt.Println("This has been: fun with go", twoja_stara)  // will print last
+	defer fmt.Println("The current time is", time.Now())  // next to last
 
 	fmt.Println("This is a number:", rand.Intn(100))
 	fmt.Printf("Whatever %g\n", math.Sqrt(2))
 
 	a, b := x_plus_times_y(4, 4)
-	fmt.Println("3 + 5", a, b)
+	fmt.Println("3 +* 5", a, b)
 
 	a, b = nekkid_return(34, 33)
 	fmt.Println("The result of this nekkid return:", a, b)
+
 
 	fmt.Println("Sigma 10 = ", suma_suma(10))
 	fmt.Println("When did you say Saturday is?")
@@ -57,6 +60,14 @@ func main() {
 	slice = slice[2:] // this apparently drops the first two items?
 	printSlice(slice)
 
+	new_slice := make([]string, 4)
+	new_slice[0] = "diggy"
+	new_slice[1] = "dongy"
+	for i, v := range new_slice {
+		fmt.Printf("%d=>'%s', ", i, v)
+	}
+	fmt.Println()
+
 	slice = append(slice, 34, 55)
 	printSlice(slice)
 	fmt.Println("fibonacci remains unchanged:", fibonacci)
@@ -65,6 +76,31 @@ func main() {
 	five_hidden_zeroes := make([]int, 0, 5) // [] as a slice of the above
 	five_revealed_zeroes := five_hidden_zeroes[:5]
 	fmt.Println(five_hidden_zeroes, five_revealed_zeroes)
+
+	toAndFromString()
+	someStringStuff()
+
+}
+
+func someStringStuff() {
+	// str.index 		-> strings.Index
+	// str.lower 		-> strings.ToLower
+	// str.upper 		-> strings.ToUpper
+	// str.split 		-> strings.Split
+	// str.__contains__ -> strings.Contains
+	// str.startswith 	->  strings.HasPrefix
+	// str.endswith 	->  strings.HasSuffix
+	fmt.Println(strings.TrimSpace(strings.Replace("this is important", "t", "\t", -1)))
+}
+
+func toAndFromString() {
+	x := "666"
+	y, _ := strconv.Atoi(x)
+	z, _ := strconv.ParseInt(x, 10, 64)
+	if int64(y) != z {  // int aka isize not explicitly the same as i64
+		fmt.Println("Then I'm a monkey's uncle")
+	}
+
 }
 
 func printSlice(s []int) {
@@ -104,9 +140,12 @@ func friday() time.Weekday {
 }
 
 func when_is_saturday() {
-	// today := time.Now().Weekday()
-	switch time.Saturday {
-	case saturday():
+	fmt.Printf("Quand sera-t-il samedi? ")
+	now := time.Now()
+	today := now.Weekday()
+	switch today {
+	// case saturday():
+	case time.Saturday:
 		fmt.Println("En effect, c'est aujourd'hui :)")
 	case friday():
 		fmt.Println("O la la, c'est demain")
